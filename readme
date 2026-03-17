@@ -1,0 +1,257 @@
+# 🧠 Intent-Based API (IBAPI)
+
+> Stop calling endpoints. Start expressing intent.
+
+IBAPI è uno standard per costruire API che accettano **linguaggio naturale** invece di endpoint rigidi.
+
+Invece di scrivere:
+
+```js
+fetch("/orders", { method: "POST", body: {...} })
+```
+
+scrivi:
+
+```js
+api.ask("ordina una pizza margherita")
+```
+
+---
+
+## 🚀 Perché IBAPI?
+
+Le API tradizionali richiedono:
+
+* endpoint da ricordare
+* parametri rigidi
+* logica lato frontend
+
+IBAPI cambia il paradigma:
+
+👉 **Intento > Endpoint**
+
+* il client esprime *cosa vuole*
+* il server decide *come farlo*
+
+---
+
+## ⚡ Quick Start
+
+### 1. Avvia il server
+
+```bash
+git clone https://github.com/yourname/ibapi
+cd ibapi-server
+npm install
+npm start
+```
+
+Server disponibile su:
+
+```
+http://localhost:3000/intent
+```
+
+---
+
+### 2. Usa l'SDK
+
+```bash
+npm install ibapi-sdk
+```
+
+```js
+import { createClient } from "ibapi-sdk";
+
+const api = createClient({
+  baseURL: "http://localhost:3000"
+});
+
+const res = await api.ask("voglio ordinare 2 pizze");
+
+console.log(res);
+```
+
+---
+
+## 🧩 Esempio
+
+### Input
+
+```json
+{
+  "query": "prenota un tavolo per 2 domani sera"
+}
+```
+
+### Output
+
+```json
+{
+  "status": "success",
+  "action": "bookTable",
+  "parameters": {
+    "people": 2,
+    "date": "2026-03-18",
+    "time": "20:00"
+  },
+  "confidence": 0.93
+}
+```
+
+---
+
+## 🏗️ Come funziona
+
+IBAPI introduce un nuovo layer:
+
+```
+Frontend → Intent API → Resolver → Actions → Backend
+```
+
+1. Il client invia linguaggio naturale
+2. Il resolver interpreta l’intento (LLM)
+3. L’azione viene validata
+4. Il sistema esegue la logica reale
+
+---
+
+## 🔌 Endpoint standard
+
+```
+POST /intent
+```
+
+### Request
+
+```json
+{
+  "query": "ordina una pizza"
+}
+```
+
+oppure:
+
+```json
+{
+  "intent": "createOrder",
+  "parameters": {
+    "product": "pizza",
+    "quantity": 1
+  }
+}
+```
+
+---
+
+## 🔐 Sicurezza
+
+IBAPI è progettato per essere sicuro:
+
+* allowlist delle azioni
+* validazione parametri
+* separazione AI / execution
+* protezione da prompt injection
+
+---
+
+## 🧠 AI Integration
+
+IBAPI è compatibile con LLM come:
+
+* OpenAI
+* modelli open source
+
+Il resolver trasforma:
+
+```
+"voglio 2 pizze"
+```
+
+in:
+
+```json
+{
+  "action": "createOrder",
+  "parameters": {
+    "product": "pizza",
+    "quantity": 2
+  }
+}
+```
+
+---
+
+## 🧰 SDK
+
+### Metodi principali
+
+```js
+api.ask("testo libero")
+api.intent("azione", params)
+```
+
+### Risposte
+
+```js
+{
+  type: "success" | "ambiguous",
+  result: {},
+  action: "",
+  confidence: 0.9
+}
+```
+
+---
+
+## 🔄 Ambiguità
+
+```js
+const res = await api.ask("ordina");
+
+if (res.type === "ambiguous") {
+  // chiedi all’utente
+}
+```
+
+---
+
+## 🌍 Visione
+
+IBAPI trasforma le API da:
+
+👉 **machine-oriented**
+
+a:
+
+👉 **human-oriented**
+
+È un passo verso:
+
+* agent-based systems
+* AI-native backends
+* interfacce universali
+
+---
+
+## 🛣️ Roadmap
+
+* [x] Core spec
+* [x] Node.js reference implementation
+* [x] SDK JavaScript
+* [ ] Streaming support
+* [ ] Multi-intent chaining
+* [ ] Memory / session awareness
+* [ ] Open standard proposal
+
+---
+
+## 🤝 Contribuire
+
+PR, idee e discussioni sono benvenute!
+
+---
+
+## 📄 Licenza
+
+MIT
