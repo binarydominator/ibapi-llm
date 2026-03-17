@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>IBAPI LLM</title>
+  <style>
+    body { font-family: Arial; background: #0f172a; color: white; text-align: center; padding:50px; }
+    h1 { font-size: 3rem; }
+    input { width: 60%; padding: 10px; font-size: 1rem; }
+    button { padding: 10px 20px; margin-left:10px; background:#22c55e; border:none; cursor:pointer; }
+    pre { background:black; padding:20px; margin-top:20px; text-align:left; }
+  </style>
+</head>
+<body>
+  <h1>Stop calling APIs.<br>Start expressing intent.</h1>
+  <p>APIs you can talk to.</p>
+
+  <div>
+    <input id="input" placeholder="ordina 2 pizze..." />
+    <button onclick="send()">Run</button>
+  </div>
+  <pre id="output"></pre>
+
+  <script>
+    async function send() {
+      const query = document.getElementById("input").value;
+      const res = await fetch("/intent", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ query })
+      });
+      const data = await res.json();
+      document.getElementById("output").innerText = JSON.stringify(data, null, 2);
+    }
+  </script>
+</body>
+</html>

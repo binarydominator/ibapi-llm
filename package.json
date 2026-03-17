@@ -1,0 +1,15 @@
+{
+  "name": "ibapi-llm",
+  "version": "0.1.0",
+  "description": "Intent-Based API con LLM reale",
+  "main": "server.js",
+  "type": "module",
+  "scripts": {
+    "start": "node server.js"
+  },
+  "dependencies": {
+    "express": "^4.18.2",
+    "dotenv": "^16.3.1",
+    "openai": "^4.25.0"
+  }
+}
